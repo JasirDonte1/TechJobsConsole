@@ -49,10 +49,35 @@ namespace TechJobsConsole
             {
                 string aValue = row[column];
 
-                if (aValue.Contains(value))
+                if (aValue.ToLower().Contains(value.ToLower()))
                 {
                     jobs.Add(row);
                 }
+            }
+
+            return jobs;
+        }
+
+        public static List<Dictionary<string, string>> FindByValue(string value){
+
+            // load data, if not already loaded
+            LoadData();
+
+            List<Dictionary<string, string>> jobs = new List<Dictionary<string, string>>();
+
+            foreach (Dictionary<string, string> row in AllJobs)
+            {
+                bool found = false;
+                foreach(var col in row)
+                {
+                    if(col.Value.ToLower().Contains(value.ToLower()))
+                    {
+                        if(found == false){
+                            found = true;
+                            jobs.Add(row);
+                        }  
+                    }
+                }    
             }
 
             return jobs;
